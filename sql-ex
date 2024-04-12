@@ -1,0 +1,19 @@
+--Задача 1
+select model, speed, hd
+from PC
+where price<500
+
+--Задача 2
+select distinct maker 
+from Product  
+where type = 'Printer'
+
+--Задача 3
+select model, ram, screen
+from Laptop
+where price>1000
+
+--Задача 4
+Select *
+from Printer
+where color = 'y'
