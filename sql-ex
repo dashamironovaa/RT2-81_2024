@@ -1,19 +1,196 @@
---Задача 1
+--Задача 1 (1)
 select model, speed, hd
 from PC
 where price<500
 
---Задача 2
+--Задача 2 (2)
 select distinct maker 
 from Product  
 where type = 'Printer'
 
---Задача 3
+--Задача 3 (3)
 select model, ram, screen
 from Laptop
 where price>1000
 
---Задача 4
+--Задача 4 (4)
 Select *
 from Printer
 where color = 'y'
+
+--Задача 5 (5)
+select model, speed, hd
+from PC
+where cd in ('12x', '24x') and
+price<600
+
+--Задача 6 (6)
+select distinct Product.maker, Laptop.speed
+from Product, Laptop 
+where Product.model = Laptop.model 
+and Laptop.hd >= 10
+
+--Задача 9 (7)
+select distinct maker
+from product 
+join pc on product.model=pc.model
+where pc.speed>=450
+
+--Задача 10 (8)
+select model, price 
+from Printer pr, (select max(price) as maxprice  
+from Printer
+) as mp 
+where price = mp.maxprice
+
+--Задача 11 (9)
+select avg(speed)
+from pc
+
+--Задача 12 (10)
+select avg (speed)
+from Laptop
+where price>1000
+
+--Задача 13 (11)
+select avg (speed)
+from PC
+join Product on product.model=pc.model
+where product.maker='A'
+
+--Задача 15 (12)
+select HD
+from PC
+group by (hd)
+having count (model)>=2
+
+--Задача 19 (13)
+select maker, avg (screen)
+from Product 
+join Laptop on product.model = laptop.model
+group by maker
+
+--Задача 20 (14)
+select maker, count(model)
+from product
+where type='PC'
+group by product.maker
+having count (distinct model)>=3
+
+--Задача 21 (15)
+select maker, max (price)
+from Product
+join PC on product.model = pc.model
+group by maker
+
+--Задача 22 (16)
+select speed, avg (price)
+from PC
+where speed>600
+group by speed
+
+--Задача 23 (17)
+select distinct maker
+from product t1 join pc t2 on t1.model=t2.model
+where speed>=750 and maker in
+(select maker
+from product t1 join laptop t2 on t1.model=t2.model
+where speed>=750 )
+
+--Задача 26 (18)
+select sum(s.price)/sum(s.kol) as sredn from
+(select price,1 as kol from pc,product
+where pc.model=product.model and product.maker='A'
+union all
+select price,1 as kol FROM laptop,product
+where laptop.model=product.model and product.maker='A') as s
+
+--Задача 28 (19)
+select count(maker)
+from product
+where maker in
+(select maker from product
+group by maker
+having count(model) = 1
+)
+
+--Задача 31 (20)
+select class, country
+from classes
+where bore>=16
+
+--Задача 33 (21)
+select ship
+from battles
+join outcomes on outcomes.battle = battles.name
+where battles.name = 'North Atlantic' and outcomes.result = 'sunk'
+
+--Задача 34 (22)
+select name 
+from classes,ships 
+where launched >=1922 and displacement>35000 
+and type='bb' and
+ships.class = classes.class
+
+--Задача 35 (23)
+select model, type
+from product
+where model not like '%[^0-9]%' or 
+model not like '%[^a-z]%'
+
+--Задача 36 (24)
+Select name 
+from ships 
+where class = name
+union
+select ship as name from classes,outcomes 
+where classes.class = outcomes.ship
+
+--Задача 38 (25)
+select country
+from Classes
+group by country
+having count (distinct type) = 2
+
+--Задача 42 (26)
+Select ship, battle 
+from outcomes 
+where result = 'sunk'
+
+--Задача 44 (27)
+select name from Ships
+where name LIKE 'R%'
+union
+select Ship from Outcomes
+where Ship like 'R%'
+
+--Задача 46 (28)
+select o.ship, displacement, numGuns 
+from
+(select name as ship, displacement, numGuns
+from Ships s join Classes c on c.class=s.class
+union
+select class as ship, displacement, numGuns
+from Classes c) as a
+right join Outcomes o
+on o.ship=a.ship
+where battle = 'Guadalcanal'
+
+--Задача 49 (29)
+select Ships.name
+from Classes join
+Ships on Classes.class = ships.class
+where bore = 16
+union
+select Outcomes.ship
+from Outcomes join
+Classes on Classes.class = Outcomes.ship
+where bore = 16
+
+--Задача 50 (30)
+select distinct battle 
+from outcomes
+where ship in (select name
+from ships
+where class='Kongo')
+
